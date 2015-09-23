@@ -1,0 +1,6 @@
+Author: Patrick McElvaney
+Date: 2/13/15
+------------------------------------------------------------------------------
+x86_64 asm file directory. Note: README is pushed and pulled from git thus
+requiring the asm directory which prevents segmentation fault when running make
+

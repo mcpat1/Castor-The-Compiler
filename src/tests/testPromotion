@@ -1,0 +1,31 @@
+double foo ( double j ){
+	int a = 42;
+	/*test for return promotion*/
+	return a;
+}
+
+main {
+/*
+	int i = 1;
+	double d = 1.0;
+
+
+	print "before promotion, i is " ;
+	printl i ;
+
+	i = d ;
+	
+	print "after promotion, i is " ;
+	printl i ;
+	printl "yay!"; 
+	int a = 2;
+	
+	printl a + d ;
+*/
+	int b = 0;
+	double e;
+	/*test for arg promotion*/
+	e = foo( b );
+	printl e ;
+
+}

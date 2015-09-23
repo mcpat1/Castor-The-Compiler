@@ -1,0 +1,45 @@
+main{
+	int a = -2;
+	while( a < 100 ){
+		a = a + 2;
+		/*print out the value of a*/
+		print "a is: " ;
+		printl a ;
+		if( a < 6 ){
+			continue;
+		}
+		if( a == 6 ){
+			/*a = 6;*/
+			printl "a is equal to 6" ;
+			while( wet ){
+				a = a + 1;
+				if( (a % 2) == 0 ){
+					printl "a is even";
+					continue;
+				} else {
+					printl "a is odd" ;
+				}
+				if ( a == 21 ){
+					printl "a is 21, lets return to outer while loop and take a to the bar." ;
+					break;
+				}
+				print a ;
+				printl "?!?! a is underage" ;
+				
+			}	
+			printl "\noutside of inner loop but a isn't 21 anymore" ;
+		}
+		a = a + 1;
+		if( a == 10 ){
+			printl "a is: 10" ;
+			break;
+		}
+		
+	
+	}
+	/*
+	printl "a should be 9." ;
+	print "a is : " ;
+	printl a ;
+	*/
+}

@@ -1,0 +1,63 @@
+int foo ( int a ){ return 6; }
+int bar ( int lhs , int rhs ){ return lhs * rhs; }
+
+
+void gcd ( int a, int b ){
+	int remainder;
+	int quotient;
+	
+	if ( a < 0 || b < 0 ) {
+		printl "Don't use negative numbers!!!" ;
+		return ;
+	}
+	
+	if ( b == 0 ) {
+		print "gcd(" ; print a ; print ", " ; print b ; print ") = " ; printl a ;
+		return ;
+	}
+	
+	quotient = a / b ;
+	remainder = a - quotient * b ;
+	print "gcd(" ; print a ; print ", " ; print b ; print ") = " ; 
+	gcd ( b, remainder ) ;
+}
+
+int factorial ( int n ){
+
+	if ( n < 1 ){
+		return 1;
+	}
+
+	return n * factorial( n - 1 );
+}
+
+main {
+	int n;
+	int m;
+	
+	print "Enter first number: " ;
+	scan n ;
+	
+	print "Enter second number: " ;
+	scan m ;
+	
+	gcd ( n, m ) ;
+	
+	printl "Now a factorial test:";
+	
+	print "Enter an integer: " ;
+	scan n;
+	print "factorial of " ;
+	print n ;
+	
+	n = factorial( n );
+	
+	print " is: " ; 
+	printl n;
+	
+	/*function as arg*/
+	int a = 4; 
+	a = bar(foo(a), a); 
+	printl a ;
+
+}

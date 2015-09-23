@@ -1,0 +1,52 @@
+# Makefile (test Boolean and Jump Code set)
+
+# We're using bash
+SHELL = /bin/bash
+
+# Directory names
+srcdir = src
+testdir = src/tests/CONDITIONALS
+maintestdir = src/tests
+asmdir = src/asm
+objdir = src/objs
+
+#can I add multiple locations to sources? 
+# Find all test source files
+sources = $(wildcard $(testdir)/test*)
+
+# Build executable names from the source files
+executables = $(addsuffix .out,$(notdir $(sources)))
+
+# Paths to assembly sources and object files based on prereqs
+testpath = $(testdir)/$(^F).asm
+asmpath = $(asmdir)/$(^F).asm
+objpath = $(objdir)/$(^F).o
+
+# Build all tests
+.PHONY: all
+all: $(executables)
+# Compile test program to assembly, build object file and create executable
+$(executables): %.out: $(testdir)/%
+# Error if running makefile directly
+ifeq ($(MAKELEVEL),0)
+	$(error Tests cannot be made directly)
+else
+	@echo ============================================================
+	@echo Castor $^
+	Castor $^
+	-cat $(maintestdir)/textSection.asm >> $(testdir)/test*.asm
+	#comment out line below to see where assembly stops for error checking
+	-$(RM) $(maintestdir)/textSection.asm
+	-mv $(testpath) $(asmpath) 
+	#if error occurs in a testFile, remove that file. Usually not the case
+	-$(RM) $(testdir)/test*.asm
+	-$(RM) scope*
+	-nasm -f elf64 $(asmpath) -o $(objpath)
+	-gcc  $(objpath) -o $@ -lm
+endif
+
+
+# Remove assembly, objects and executables created from tests
+.PHONY: clean
+clean:
+	#-rm -f $(testdir)/*.asm

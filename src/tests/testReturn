@@ -1,0 +1,67 @@
+
+int addi ( int x, int y ){
+
+	return x + y ;
+}
+
+double addf ( double x, double y ) {
+
+	return x + y ; 
+}
+
+int func1 ( int x, int y, double z) {
+	if ( z <= 9.2 ) {
+		return x - 17 ;
+	} else {
+		return y + 17 ;
+	}
+}
+
+double func2 ( double x, double y, int z ) {
+	if ( z <= 9 ) {
+		return x - 1.7 ;
+	} else {
+		return y + 1.7 ;
+	}
+}
+
+main {
+	int a;
+	int b;
+	int c;
+	double p;
+	double q;
+	double r;
+	
+	a = 23; b = 74; c = 0;
+	p = 4.2; q = -12.1; r = 0.0;
+	
+	c = addi(a, b) ;
+	print "c = " ;
+	printl c ;
+	c = addi(14 - a, b + 2);
+	print "c = " ;
+	printl c ;
+	
+	r = addf( p, q );
+	print "r = " ;
+	printl r ;
+	r = addf( 1.2 - 2.0 * p, p * q ) ;
+	print "r = " ;
+	printl r ;
+	
+	c = func1( a, b, p );
+	print "c = " ;
+	printl c ;
+	c = func1(a, b, p + 5.1 );
+	print "c = " ;
+	printl c ;
+	
+	r = func2( p, q, a );
+	print "r = " ;
+	printl r ;
+	r = func2( p, q, a - 14 );
+	print "r = " ;
+	printl r ;
+
+}

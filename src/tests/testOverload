@@ -1,0 +1,87 @@
+int a;
+int b;
+int c;
+
+int foo ( int a ){ 
+	
+	printl "In int foo ( int a )" ;
+	
+	return 0 ;
+}
+
+double foo ( double b ){
+	
+	printl "In double foo ( double b )" ;
+	
+	return 1.0 ;
+}
+
+
+
+
+double bar ( double j ){
+	int a = 42;
+	/*test for return promotion*/
+	return a;
+}
+
+int bar ( int lhs ){
+	return lhs;
+} 
+
+int proc2 ( int a, int b, double x, double y, int p ) {
+	
+	if ( p && a < b ) {
+		print "The answer is " ;
+		printl x - y ;
+	} else {
+		print "The real answer is " ;
+		printl ( y * y ) ;
+	}
+	
+	return 6666 ;
+}
+
+main {
+
+	int i;
+
+	double r;
+	
+	i = 24;
+	r = 17831.2;
+	/**/
+	i = foo( i ) ;
+	/*This is calling double foo*/
+	r = foo( r ) ;
+	
+
+	/****************PART 2************************/
+	int b;
+	int x;
+
+	a = 9999 ;
+	b = 888 ;
+	c = 77 ;
+	x = a * b - c ;
+	
+	print "a is: " ;
+	printl a ;
+
+	
+	print "a is: " ;
+	printl a ;
+	
+	
+	
+	
+	/***********PART 3 - Arg Promotion************/
+	
+
+	double e;
+	e = bar( b );
+	printl e ;
+	
+
+
+}

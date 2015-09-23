@@ -1,0 +1,313 @@
+.TH Castor theCompiler "January 2015" "CMSC 431" "User Manuals"
+.
+.SH NAME
+Castor (French for Beaver) \- A language created for the Compilers class
+.
+.SH DESCRIPTION
+This language resembles a simplified version of C with a taste of Scala. This language is compiled
+to the x86_64 assembly language with the 
+.B Proj1
+compiler, from which an executable program can be assembled and linked using
+.BR nasm (1)
+and 
+.BR gcc (1)
+respectively. Some deviations from the C language is that global variables cannot be modified.  Variables must be initialized in the local scope or a predecessors scope before a value can be assigned due to explicit typing.
+.BR Castor (1)
+the language focuses on modularized functions that can effectively be treated like expressions.  To this effect, Castor is peppered with ideas from Scala.
+
+.P 
+The language operates as a calculator supporting basic integer or basic 
+floating point mathematic operations. With declarations variables and 
+assignment of any mathematical expression's result to initialized variables.
+To print calculated expressions or variable values, use print statements. String Literals start and end with double quotes.  Scanning for integer and double types for users to dynamically contribute to the program at runtime.  Scoping ensures closure where parent scopes can contribute to it's children scopes but local scopes cannot modify variables in external scopes.  In compensation, Functions are versatile: they can be overloaded, and should be designed like small modularized expressions that do not produce unexpected results in other areas of the program.  See
+.BR Scala (1)
+for strong examples in action.
+.
+.SH LANGUAGE
+.SS Declaration and Assignment Operations
+All variables must be declared(initialized) before a value can be assigned.
+.TP
+.B Declarations:
+The following declaration formats are allowed.
+.TP
+<type> <var> ;
+Only one instance of any variable name is allowed. e.g. declaring int myVar; then double myVar; is not allowed.
+.TP
+.B Assignments:
+The following assignment formats are allowed if the variable has been 
+declared or the variable is prefixed with a type and the lhs type 
+equals the rhs.
+.TP
+<type> <variable> = <expr> ; | <type> <variable> = <var> ;
+.TP
+<var> = <variable> ; | <variable> = <math op> ; 
+.B NOTE:
+math op can be any acceptable Mathematical operation.
+.SS Boolean Values and Jumping Code
+The focus of this section is the use of boolean expressions ( boolini ) to alter the flow of control in statements.
+.TP
+.B Boolean Values:
+Two types:
+.B WET
+ and 
+.B DRY
+which resolve to: 
+.B True
+ and 
+.B False
+The following allows explicit testing of a
+.B boolini
+,
+.B Relational Operations
+, even an
+.B expr
+, so that programmers can write some of the most interesting code on planet Earth! 
+.TP
+.B Relational Operations:
+Relational operators are binary operators which enable testing one primitive data types and or boolini against another. (NOTE: boolini is representative of primitive types <int | double | boolini> )  Operators will be listed with a description from highest priority to least with trailing parentheses identifying operator associativity:
+.TP
+.RB ! boolini ( right )
+Is Logical Not
+.TP
+.BR boolini > boolini ( left )
+Is Greater Than
+.TP
+.BR boolini < boolini ( left )
+Is Less Than
+.TP
+.BR boolini >= boolini ( left )
+Is Greater Than Or Equal
+.TP
+.BR boolini <= boolini ( left )
+Is Less Than Or Equal
+.TP
+.BR boolini != boolini ( left )
+Is Not Equal
+.TP
+.BR boolini == boolini ( left )
+Is Equal
+.SS Keywords
+.TP
+.BR WET | DRY
+bool values are type insensitive, any ol' casing will do.
+.TP
+return
+.TP
+.B Commenting in Castor:
+comments begin with /* and end with */ much like '89 C. // cannot be used for single line comments.
+.TP
+.B Print Statements:
+print <expr> ; | print <variable> ;
+Print an expression or variables value to stdout.
+.TP
+printl <expr> ;
+Print an expression or variables value with an appended return to stdout.
+.TP
+.B Scanning statements:
+.TP
+scan <ID> ;
+Scan an integer or double from stdin. Variable must be declared before usage.
+.SS Mathematical Operations
+The following mathematical operations are supported in decreasing order of 
+precedence. Expressions may be constructed from signed 64 bit integers,
+floats, or other mathematical expressions. 
+.TP
+(expression)
+Parentheses. Override precedence of operators outside the parentheses. 
+.TP
+expression ** expression
+Integer exponentiation. Returns 1 if exponent is less than 1. 
+.TP
+-expression
+Negation. 
+.TP
+expression * expression
+Multiplication. Same precedence as division and modulus.
+.TP
+expression / expression
+Division. Same precedence as multiplication and modulus.
+.TP
+expression % expression
+Modulus. Same precedence as multiplication and division.
+.br
+.B NOTE:
+Modulus is not a floating point operation.
+.TP 
+expression + expression
+Addition. Same precedence as subtraction.
+.TP
+expression - expression
+Subtraction. Same precedence as addition.
+.SS Selection Statements:
+.TP
+if ( expr ) { statement(s) }
+An If Statement has statement(s) that are performed if the expression 
+.B expr
+resolves to be true.
+.TP
+if ( expr ) { statement(s) } else { statement(s) }
+In addition to a forking condition, a set of instructions will be performed should the expression be resolved to false.
+.TP
+Nested Selection Statements are a viable part of
+.B Castor
+.  As an 
+.RB [ EXAMPLE ] 
+The following code snipit is representative of the language:
+if ( WeT ) {
+   int God = 1 ;
+   if ( God ) {
+      printl "\nGod is good, God is great" ;
+      God = 0 ;
+	  if ( God ) {
+	     printl "What up dude" ;
+      }
+      else {
+         printl "yep what else" ;
+      }
+   } else { printl "Reencarnation is proven" ; }
+   if ( God ) { 
+      printl "Scoped variables preserved" ;
+   }
+}
+=========================================
+| Prints |
+==========
+God is good, God is great
+yep what else
+Scoped variables preserved
+=========================================
+
+ Notice: Variables are local to a scope and a scope has access to its decendents.
+  
+.SS Iterative Statements:
+.TP
+while ( expr ) { statement(s) }
+A While Statement has statement(s) that are performed if the expression
+.B expr
+is true and once in a while loop, repetatively performed until the condition becomes false. Within a while loop, the condional variable is checked against the false condition before repeating the set of operations. Break and Continue directives are exclusively understood within the braces of any while loop.  Break will jump out of the current loop and continue will unconditionally jump back to the top of the loop.
+ As an 
+.RB [ EXAMPLE ] 
+The following code snipit is representative of the language:
+int a = 1;
+int b = 10;
+int i = 0;
+while ( a < b ) { 
+   print i ;
+   if ( i == 1 ){
+      printl " time" ;
+   }
+   else {
+      printl " times" ;
+   }
+   b = b - 1 ;
+}
+=========================================
+| Prints |
+==========
+0 times
+1 time
+2 times
+3 times
+4 times
+5 times
+6 times
+7 times
+8 times
+=========================================
+.SS Functions
+.TP
+Functions take in formal parameters passed by value.  The type of each formal parameter can be boolini, int, or double.  Functions return a void, boolini, int or double type.  If function call exists as an argument of another function call, the inner function will be called first and the return type will then be used as an argument of the enclosing function.  Functions signatures can be matched several ways.  Due to type promotion, the order of function declaration matters, see
+.B Overloading Functions and Promoting Parameters.
+  Functions with identical names but of different length arguments are allowed adn will be matched appropriately. Thus argument types need not be exactly the same. Local variables are different from global variables.  Functions do not apply to Interactive Mode functionality of Castor.
+.TP
+Overloading Functions and Promoting Parameters:
+When a function overload occurs, a typed argument can be promoted.  The functions are compared for acceptable signatures in the reverse order of which they were declared.
+.RB [ EXAMPLE ]
+int foo ( int a ){
+	printl "In int foo ( int a )";
+	return 0;
+}
+
+double foo ( double a ){
+	printl "In double foo ( double a )";
+	return 0.0;
+}
+main {
+	int i; double r;
+	i = 24;
+	r = 65535.1;
+	i = foo( i );
+	r = foo( r );
+}
+=========================================
+| Prints |
+==========
+In double foo ( double a )
+In double foo ( double a )
+=========================================
+This program will promote the variable i in the first call to match double foo because it was defined after int foo.  To fix this the program should switch the definition of int foo and double foo as follows.
+
+double foo ( double a ){
+	printl "In double foo ( double a )";
+	return 0.0;
+}
+
+int foo ( int a ){
+	printl "In int foo ( int a )";
+	return 0;
+}
+main {
+	int i; double r;
+	i = 24;
+	r = 65535.1;
+	i = foo( i );
+	r = foo( r );
+}
+=========================================
+| Prints |
+==========
+In int foo ( int a )
+In double foo ( double a )
+=========================================
+.SS Types
+.TP
+boolini ( implicitly typed )
+.br
+Wet maps to true( <int> 1 )... ..Dry maps to false( <int> 0 ). 
+.TP
+int
+.br
+Integer. Equivalent to C's long int type.
+.TP
+double
+.br
+Rational or Irrational Number. Equivalent to C's double type.
+.TP
+void
+equivalent to NULL, used for functions that have no return type
+.
+
+.SH LIMITATIONS
+.IP \(bu
+There are no global variables.
+.IP \(bu
+Cannot declare a variable of the same pattern as those that are conditionally being tested within conditional statements. This is a problem with while( a < b ){ int a = 0; }
+.IP \(bu
+In coordinance with the ongoing progression of a developing compiler, the author has reserved a special directory '/src/tests/' for any files to be tested.  The results will be displayed to the terminal in coordinance with Interactive Mode development however, if a file is appended to 'Castor' or Interactive Mode is used, the assembly file will be divided into two files  { .data section , .text section } . Concatenation is performed within the makefile but you are encouraged to concatenate textSection.asm to the name of the provided test file with .asm appended. Improvements upon this issue will be assessed and certainly complete some day... 
+.IP \(bu
+Newlines may not be present within the expression.
+.IP \(bu
+Improve the fprintf into one long array of .x. length to (minimize) limit the number of writes and reduced instruction set 
+.IP\(bu
+Floating point results are truncated to 6 decimal places. use of dynamic sizing with %*f are being considered
+.
+.SH THE FUTURE...
+.IP \(bu
+base arrays with 
+.B var[-1]
+holding a lookup table of file length for medium size matrices keeping in mind l Endianess and including a medium size fraction look up table for some 2^(MAX_EXP_FRAC) with concurrent log n lookup time in theory for an array of S columns to the reciprocal of 1-S divides pipeline-ablility.
+.IP \(bu
+Would like to import networkx.py to separate make
+.
+.SH AUTHOR
+The Author <McPat1@umbc.edu>

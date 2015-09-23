@@ -1,0 +1,20 @@
+
+main{
+
+	if ( WeT ) {
+		int God = 1 ;
+		if ( God ) {
+			printl "God is good, God is great" ;
+			God = 0 ;
+			if ( God ) {
+				printl "What up dude" ;
+			}
+			else {
+				printl "yep what else" ;
+			}
+		} else { printl "Reencarnation is proven" ; }
+		if ( God ) { 
+			printl "Scoped variables preserved" ;
+		}
+	}
+}
