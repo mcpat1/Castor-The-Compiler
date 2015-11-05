@@ -1,3 +1,4 @@
+%option noyywrap
 %{
 #include <cstdlib>
 #include "parser.tab.hh"
