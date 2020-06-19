@@ -11,7 +11,7 @@
 void printError( const char * msg, int eType ){
 	switch(eType){
 	case 1:
-		fprintf( stderr, "Error on line [%d]: %s\n", num_lines, msg);
+		fprintf( stderr, "Error on line [%ld]: %s\n", num_lines, msg);
 		error_occured = 1;
 		return; //error recovery
 		//break;
@@ -39,18 +39,18 @@ void printError( const char * msg, int eType ){
 		} else {
 			fprintf( stderr, "double.\n");
 		}
-		fprintf( stderr, "\tReturning type: %s on line %d.\n", msg, num_lines);
+		fprintf( stderr, "\tReturning type: %s on line %ld.\n", msg, num_lines);
 		error_occured = 1;
 		return; //error recovery
 		//break;
 	case 8:
-		fprintf( stderr, "Error: No value being returned from function %s when signature has\n\ta return of type %s type before line %d.\n", current_fun->fun_name, msg, num_lines); 
+		fprintf( stderr, "Error: No value being returned from function %s when signature has\n\ta return of type %s type before line %ld.\n", current_fun->fun_name, msg, num_lines); 
 		//goto main_recover;
 		error_occured = 1;
 		return; //error recovery
 		//break;
 	case 9:
-		fprintf( stderr, "Jump Error: %s instruction outside of a while loop is not permitted.\nSee line %d\n", msg, num_lines );
+		fprintf( stderr, "Jump Error: %s instruction outside of a while loop is not permitted.\nSee line %ld\n", msg, num_lines );
 		break;
 	default:
 		fprintf( stdout, "\n\nI NEED BETTER ERROR CHECKING\n\n");

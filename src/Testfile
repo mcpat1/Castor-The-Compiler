@@ -31,8 +31,8 @@ ifeq ($(MAKELEVEL),0)
 	$(error Tests cannot be made directly)
 else
 	@echo ============================================================
-	@echo Castor $^
-	Castor $^
+	@echo ./Castor $^
+	./Castor $^
 	-cat $(testdir)/textSection.asm >> $(testdir)/test*.asm
 	#comment out line below to see where assembly stops for error checking
 	-$(RM) $(testdir)/textSection.asm

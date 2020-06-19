@@ -24,8 +24,8 @@ void typeCheck( Type *lhs, Type *rhs){
 		if(rhs->type == 301){
 			lhs->type = 301;
 			lhs->dubval = (double)lhs->longval;
-			fprintf( curDataFile, ".f%ld:\tdq  %f\n;type promotion\n", ++floats_in_use, lhs->dubval );
-			fprintf( textSec, ";;;;replacing stack in type promotion\n\tmovq\txmm0, QWORD [rsp]\n\tadd\trsp, 8\n\t\n\tpush\tQWORD [%s.f%ld]\n\tsub\trsp, 8\n\tmovq\t[rsp], xmm0\n", currentScopeStr, floats_in_use);
+			fprintf( curDataFile, ".f%d:\tdq  %f\n;type promotion\n", ++floats_in_use, lhs->dubval );
+			fprintf( textSec, ";;;;replacing stack in type promotion\n\tmovq\txmm0, QWORD [rsp]\n\tadd\trsp, 8\n\t\n\tpush\tQWORD [%s.f%d]\n\tsub\trsp, 8\n\tmovq\t[rsp], xmm0\n", currentScopeStr, floats_in_use);
 			return;
 		}
 	}
@@ -33,8 +33,8 @@ void typeCheck( Type *lhs, Type *rhs){
 		if(lhs->type == 301){
 			rhs->type = 301;
 			rhs->dubval = (double)rhs->longval;
-			fprintf( curDataFile, ".f%ld:\tdq  %f\n;type promotion\n", ++floats_in_use, rhs->dubval );
-			fprintf( textSec, ";;;;replacing stack in type promotion\n\tadd\trsp, 8\n\tpush\tQWORD [%s.f%ld]\n", currentScopeStr, floats_in_use);
+			fprintf( curDataFile, ".f%d:\tdq  %f\n;type promotion\n", ++floats_in_use, rhs->dubval );
+			fprintf( textSec, ";;;;replacing stack in type promotion\n\tadd\trsp, 8\n\tpush\tQWORD [%s.f%d]\n", currentScopeStr, floats_in_use);
 			floats_in_use;
 			return;
 		}
@@ -169,7 +169,7 @@ Type *getID(char *id){
 			HASH_ADD_STR( currentScope->mapped_scope, name, d );
 			switch(s->mapped_value->type){
 				case 300:
-					fprintf( curDataFile, ";scope resolution from %s\n.%s:\tdq  %d\n", temp->scope , s->name, s->mapped_value->longval);
+					fprintf( curDataFile, ";scope resolution from %s\n.%s:\tdq  %ld\n", temp->scope , s->name, s->mapped_value->longval);
 					d->mapped_value = (Type *) malloc(sizeof(Type *));
 					if ( d->mapped_value == NULL ){
 						printError( "Malloc in scope_resolution of getID failed", 3);
@@ -233,7 +233,7 @@ Type *getID(char *id){
 	}
 	printError( "INVALID ACCESS OF UNINITIALIZED VARIABLE!", 1);
 	 
-
+	return NULL;
 }
 
 
@@ -416,7 +416,7 @@ Type *intNUM(long num){
 		printError( "Malloc of int type struct failed", 3);
 	
 	structPtr->longval = num;
-	structPtr->dubval = NULL;
+	structPtr->dubval = (double)NULL;
 	structPtr->strval = NULL;
 	structPtr->type = 300; //enum val for INTEGER
 	structPtr->attr = NULL; //pointer to Attributes(additional info)
@@ -435,13 +435,13 @@ Type *floatNUM(double num){
 		printError( "Malloc of float type struct failed", 3);
 	
 	structPtr->dubval = num;
-	structPtr->longval = NULL;
+	structPtr->longval =(long) NULL;
 	structPtr->strval = NULL;
 	structPtr->type = 301; //enum val for FLOAT
 	structPtr->attr = NULL; //pointer to Attributes(additional info)
 	/* asm code */
-	fprintf( curDataFile, ".f%ld:\tdq  %f\n", floats_in_use, num);
-	fprintf( textSec, "\tpush\tQWORD [%s.f%ld]\t;%f\n", currentScopeStr, floats_in_use++, num);
+	fprintf( curDataFile, ".f%d:\tdq  %f\n", floats_in_use, num);
+	fprintf( textSec, "\tpush\tQWORD [%s.f%d]\t;%f\n", currentScopeStr, floats_in_use++, num);
 	return structPtr;
 	
 }
@@ -450,8 +450,8 @@ Type *makeTempStruct(int type){
 	Type *tempStruct;
 	if((tempStruct = (Type *) malloc(sizeof(Type *))) == NULL)
 		printError( "Malloc of int type struct failed", 3);
-	tempStruct->longval = NULL;
-	tempStruct->dubval = NULL;
+	tempStruct->longval =(long)NULL;
+	tempStruct->dubval = (double)NULL;
 	tempStruct->strval = NULL;
 	tempStruct->attr = NULL; //pointer to Attributes(additional info)
 	switch (type){

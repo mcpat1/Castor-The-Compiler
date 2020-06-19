@@ -125,7 +125,7 @@ start: { O_boilerPlate(); }
 program { C_boilerPlate(); 
 			  //print statistics
   printf( "# of lines = %lu, # of chars = %lu, lines of code %lu\n", num_lines + 1, num_chars, num_lines_of_code ); 
-  YYACCEPT} //YYACCEPT ADDED, not tested
+  YYACCEPT;} //YYACCEPT ADDED, not tested
 ;									//but is logical
 program: 
 global_set main_set function_definitions
@@ -206,8 +206,8 @@ if_stmt
 | while_stmt
 | expr '=' expr ';' { varAssignment($1, $3);   if(RET_VAL){--RET_VAL;}else{popStack();} }
 | expr ';' { if( !FLAG_FUN ){popStack();} }
-| _print_ expr ';'  { print_call($2) }
-| _printl_ expr ';' { printl_call($2) }
+| _print_ expr ';'  { print_call($2); }
+| _printl_ expr ';' { printl_call($2); }
 | _scan_ ID ';'     { scan_call($2); /*free(lex_var_str);*/}
 | stmt_block
 | jump_stmt ';' { /*continue ';', break ';', _return_ ';', _return_ expr ';'*/ }
@@ -224,8 +224,8 @@ stmt_block:
 jump_stmt:
 _return_  { retValCheck( current_fun->s_head->param_type[0], 0 ); fprintf( textSec, "\n\tmov\trsp, rbp\n\tpop\trbp\n\tret\n");/* for void return --proj5 */ }
 | _return_ expr { retValCheck( current_fun->s_head->param_type[0], $2->type);/*(1) ret expr needs to be checked against function ret type*/ RET_VAL = 1; fprintf( textSec, "\n\n\tmov\trsp, rbp\n\tpop\trbp\n\tret\n");/*(2) ret needs to be placed on stack at appropriate location --proj6*/}
-| _break_     { if( !nestedWhiles ){ printError( "break", 9 ); } fprintf( textSec, ";break\n\tjmp\twhileExit%lu\n", whileJumpArray[ nestedWhiles ] );   }
-| _continue_  { if( !nestedWhiles ){ printError( "continue", 9 ); } fprintf( textSec, ";break\n\tjmp\twhileCond%lu\n", whileJumpArray[ nestedWhiles ] );  }
+| _break_     { if( !nestedWhiles ){ printError( "break", 9 ); } fprintf( textSec, ";break\n\tjmp\twhileExit%u\n", whileJumpArray[ nestedWhiles ] );   }
+| _continue_  { if( !nestedWhiles ){ printError( "continue", 9 ); } fprintf( textSec, ";break\n\tjmp\twhileCond%u\n", whileJumpArray[ nestedWhiles ] );  }
 ;
 
 /*selection_stmt:*/
@@ -301,13 +301,13 @@ void yyerror(const char *msg, int eType)
 	switch(eType){
 		case 0:
 			fprintf( stderr, "Lex Error: Traceback (Most recent call last):\n");
-			fprintf( stderr, "%d: %s at %s in this line:\n%s\n",
+			fprintf( stderr, "%ld: %s at %s in this line:\n%s\n",
               num_lines, msg, yytext, linebuf);
 			eType = 65535; //ALL OF THE ABOVE TESTED AND WORKS!!!
 			break;
 		case 1:
 			fprintf( stderr, "Error(1): Traceback (Most recent call last):\n");
-			fprintf( stderr, "%d: %s at %s in this line:\n%s\n",
+			fprintf( stderr, "%ld: %s at %s in this line:\n%s\n",
               num_lines, msg, yytext, linebuf);
 			eType = 65535; //ALL OF THE ABOVE TESTED AND WORKS!!!
 			break;

@@ -1,0 +1,14 @@
+Castor
+scope*
+globalTextSec
+a.asm
+src/parser.output
+src/parser.tab.cc
+src/parser.tab.hh
+src/parser.tab.o
+src/scanner.cc
+src/scanner.o
+src/tests/*.asm
+
+**/*.swp
+

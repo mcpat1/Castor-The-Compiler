@@ -34,7 +34,7 @@ Type *logicalNOT(Type *obj){
 //DOES C DO STRING BOOLEANS!? i guess if it is == NULL, so yeah
 			return tmp->longval = !obj->strval;
 			*/
-
+	return NULL;
 }///!!!///!!!///!!!///!!!///!!!///!!!///!!!/\/\?!?!/\/\?!?!///!!!///!!!
 
 /* logicalAND */
@@ -266,14 +266,14 @@ Type *logicalORfollow( Type *lhs, Type *rhs){
 		return lhs;
 	}*/
 
-
+	return NULL;
 }
 Type *isLessThan(Type *lhs, Type *rhs){
 	typeCheck(lhs, rhs);
 	Type *tmp = makeTempStruct(lhs->type);
 	switch( lhs->type ){
 		case 300:
-			fprintf( textSec, "\t;test %d < %d\n", lhs->longval, rhs->longval );
+			fprintf( textSec, "\t;test %ld < %ld\n", lhs->longval, rhs->longval );
 			fprintf( textSec, "\tpop\trsi\n\tpop\trdi\n\tsub\trsp, 8\n");
 			fprintf( textSec, "\tcmp\trdi, rsi\n\tsetl\t[rsp]\n");
 			//fprintf( textSec, "\ttest\t[rsp], 1\n\tjne\t");
@@ -302,6 +302,7 @@ Type *isLessThan(Type *lhs, Type *rhs){
 			return tmp->longval = 0;
 			*/
 	}
+	return NULL;
 }
 
 Type *isGreaterThan(Type *lhs, Type *rhs){
@@ -309,7 +310,7 @@ Type *isGreaterThan(Type *lhs, Type *rhs){
 	Type *tmp = makeTempStruct(lhs->type);
 	switch( lhs->type ){
 		case 300:
-			fprintf( textSec, "\t;test %d > %d\n", lhs->longval, rhs->longval );
+			fprintf( textSec, "\t;test %ld > %ld\n", lhs->longval, rhs->longval );
 			fprintf( textSec, "\tpop\trsi\n\tpop\trdi\n\tsub\trsp, 8\n");
 			fprintf( textSec, "\tcmp\trdi, rsi\n\tsetg\t[rsp]\n");
 			//fprintf( textSec, "\ttest\t[rsp], 1\n\tjne\t");
@@ -338,6 +339,7 @@ Type *isGreaterThan(Type *lhs, Type *rhs){
 			return tmp->longval = 0;
 			*/
 	}
+	return NULL;
 }
 
 
@@ -346,7 +348,7 @@ Type *isLessThanOrEq(Type *lhs, Type *rhs){
 	Type *tmp = makeTempStruct(lhs->type);
 	switch( lhs->type ){
 		case 300:
-			fprintf( textSec, "\t;test %d <= %d\n", lhs->longval, rhs->longval );
+			fprintf( textSec, "\t;test %ld <= %ld\n", lhs->longval, rhs->longval );
 			fprintf( textSec, "\tpop\trsi\n\tpop\trdi\n\tsub\trsp, 8\n");
 			fprintf( textSec, "\tcmp\trdi, rsi\n\tsetle\t[rsp]\n");
 			//fprintf( textSec, "\ttest\t[rsp], 1\n\tjne\t");
@@ -376,6 +378,7 @@ Type *isLessThanOrEq(Type *lhs, Type *rhs){
 			return tmp->longval = 0;
 		*/
 	}
+	return NULL;
 }
 
 Type *isGreaterThanOrEq(Type *lhs, Type *rhs){
@@ -383,7 +386,7 @@ Type *isGreaterThanOrEq(Type *lhs, Type *rhs){
 	Type *tmp = makeTempStruct(lhs->type);
 	switch( lhs->type ){
 		case 300:
-			fprintf( textSec, "\t;test %d >= %d\n", lhs->longval, rhs->longval );
+			fprintf( textSec, "\t;test %ld >= %ld\n", lhs->longval, rhs->longval );
 			fprintf( textSec, "\tpop\trsi\n\tpop\trdi\n\tsub\trsp, 8\n");
 			fprintf( textSec, "\tcmp\trdi, rsi\n\tsetge\t[rsp]\n");
 			//fprintf( textSec, "\ttest\t[rsp], 1\n\tjne\t");
@@ -413,6 +416,7 @@ Type *isGreaterThanOrEq(Type *lhs, Type *rhs){
 			return tmp->longval = 0;
 		*/
 	}
+	return NULL;
 }
 
 
@@ -423,7 +427,7 @@ Type *isEqual(Type *lhs, Type *rhs){
 	Type *tmp = makeTempStruct(lhs->type);
 	switch( lhs->type ){
 		case 300:
-			fprintf( textSec, "\t;test %d == %d\n", lhs->longval, rhs->longval );
+			fprintf( textSec, "\t;test %ld == %ld\n", lhs->longval, rhs->longval );
 			fprintf( textSec, "\tpop\trsi\n\tpop\trdi\n\tsub\trsp, 8\n");
 			fprintf( textSec, "\tcmp\trdi, rsi\n\tsete\t[rsp]\n");
 			//fprintf( textSec, "\ttest\t[rsp], 1\n\tjne\t");
@@ -453,6 +457,7 @@ Type *isEqual(Type *lhs, Type *rhs){
 			return tmp->longval = 0;
 		*/
 	}
+	return NULL;
 }
 
 Type *isNotEqual(Type *lhs, Type *rhs){
@@ -460,7 +465,7 @@ Type *isNotEqual(Type *lhs, Type *rhs){
 	Type *tmp = makeTempStruct(lhs->type);
 	switch( lhs->type ){
 		case 300:
-			fprintf( textSec, "\t;test %d != %d\n", lhs->longval, rhs->longval );
+			fprintf( textSec, "\t;test %ld != %ld\n", lhs->longval, rhs->longval );
 			fprintf( textSec, "\tpop\trsi\n\tpop\trdi\n\tsub\trsp, 8\n");
 			fprintf( textSec, "\tcmp\trdi, rsi\n\tsetne\t[rsp]\n");
 			//fprintf( textSec, "\ttest\t[rsp], 1\n\tjne\t");
@@ -490,5 +495,6 @@ Type *isNotEqual(Type *lhs, Type *rhs){
 			return tmp->longval = 0;
 		*/
 	}
+	return NULL;
 }
 

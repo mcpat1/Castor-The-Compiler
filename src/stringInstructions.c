@@ -72,17 +72,17 @@ Type* strLiteral(char *string){
 	Type *structPtr;
 	if((structPtr = (Type *) malloc(sizeof(Type *))) == NULL)
 		printError( "Malloc of string type struct failed", 3);
-	structPtr->longval = NULL;
-	structPtr->dubval = NULL;
+	structPtr->longval = (long)NULL;
+	structPtr->dubval = (double)NULL;
 	structPtr->strval = string;
 	structPtr->type = 302; //enum val for STRING
 	structPtr->attr = NULL; //pointer to Attributes(additional info)
 	/* asm write */
-	fprintf( curDataFile, ".sLit%ld:\tdb  '", strings_in_use);
+	fprintf( curDataFile, ".sLit%d:\tdb  '", strings_in_use);
 	
 	/* parse the string for escape sequences that must be handled for NASM */
 	buildStr(string); 
 	
-	fprintf( textSec, "\tpush\tQWORD %s.sLit%ld\n", currentScopeStr, strings_in_use++);
+	fprintf( textSec, "\tpush\tQWORD %s.sLit%d\n", currentScopeStr, strings_in_use++);
 	return structPtr;
 }

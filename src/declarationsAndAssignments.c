@@ -21,7 +21,7 @@ Type *initializeInt(char *id){
 			printError( "Malloc of identifier struct failed", 3);
 		}
 		if( FLAG_FUN)
-		structPtr->longval = NULL;
+		structPtr->longval = (double)NULL;
 		structPtr->type = 300;
 		strcpy(structPtr->attr->name, id);
 
@@ -66,7 +66,7 @@ Type *initializeFloat(char *id){
 		if((structPtr->attr = (Ident *) malloc(sizeof(Ident *))) == NULL){
 			printError( "Malloc of identifier struct failed", 3);
 		}
-		structPtr->dubval = NULL;
+		structPtr->dubval = (double)NULL;
 		structPtr->type = 301;
 		strcpy(structPtr->attr->name, id);
 		/* asm code */

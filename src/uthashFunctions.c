@@ -102,7 +102,7 @@ Types *insert_symbol(char *name) {
 	 /* Consider returning Type *, and catch with an if true continue; if var already exists return 0, malloc error return -1*/
 	 //then handle with and if (0) printError( "VARIABLE WAS PREVIOUSLY INITIALIZED!", 1);
 	 //                     else (-1) printError( "Malloc of identifier struct failed", 3);
-    
+	return NULL;    
 }
 
 

@@ -99,12 +99,12 @@ Type *insertParameter(char* id, int t){
 		//s->mapped_value->attr->offset = -( 8 * fun_arg_offsets + 8 ); //NEW!!!!!!!!!!!!!!!!!!!!!!!!!!
 		//--fun_arg_offsets;
 		if( t == 300 ){
-			s->mapped_value->longval = NULL;
+			s->mapped_value->longval = (long)NULL;
 			s->mapped_value->type = 300;
 			fprintf( curDataFile , ".%s:\tdq  0  ;intVar\n", id);
 		}
 		else {
-			s->mapped_value->dubval = NULL;
+			s->mapped_value->dubval = (double)NULL;
 			s->mapped_value->type = 301;
 			fprintf( curDataFile, ".%s:\tdq  0  ;floatVar\n", id);
 			}
@@ -120,7 +120,7 @@ Type *insertParameter(char* id, int t){
 		return s->mapped_value;
 	}
 	printError( "Cannot have two parameters with the same identification", 1);
-	
+	return NULL;	
 }
 void writeOffset(Type* obj){
 	
@@ -210,6 +210,7 @@ Type *getSignature(char *name){
 		}	
 	}
 	printError( name, 6 );
+	return NULL;
 }
 
 void appendArg(Type *obj){
